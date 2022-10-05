@@ -22,7 +22,7 @@ public class List<T> implements IDataStructure<T> {
     }
 
     public boolean isEmpty() {
-        return size() == 0;
+        return first == null;
     }
 
     public Object[] listData() {
@@ -41,7 +41,6 @@ public class List<T> implements IDataStructure<T> {
     }
 
     public List<T> insert(T data, int insertIndex) {
-        throwIfIndexIsInBounds(insertIndex);
 
          Node<T> newNode = new Node<>(data);
 
@@ -50,6 +49,7 @@ public class List<T> implements IDataStructure<T> {
          }else if(insertIndex == -1){
              insertNodeAtEnd(newNode);
          }else{
+             throwIfIndexIsInBounds(insertIndex);
              insertNodeAtPosition(insertIndex, newNode);
          }
 
