@@ -9,3 +9,4 @@
 
 rootProject.name = 'edai.collections'
 include('lib')
+include('practices')
