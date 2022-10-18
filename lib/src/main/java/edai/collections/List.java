@@ -1,5 +1,7 @@
 package edai.collections;
 
+import edai.collections.utils.NodeUtils;
+
 public class List<T> implements IDataStructure<T> {
 
     private Node<T> first;
@@ -9,16 +11,7 @@ public class List<T> implements IDataStructure<T> {
     }
 
     public int size() {
-
-        Node<T> current = first;
-        int counter = 0;
-
-        while(current != null){
-            counter++;
-            current = current.getNext();
-        }
-
-        return counter;
+        return NodeUtils.count(first);
     }
 
     public boolean isEmpty() {
@@ -26,18 +19,7 @@ public class List<T> implements IDataStructure<T> {
     }
 
     public Object[] listData() {
-        Object[] output = new Object[size()];
-
-        Node<T> current = first;
-
-        int i = 0;
-        while(current != null){
-            output[i] = current.getData();
-            i++;
-            current = current.getNext();
-        }
-
-        return output;
+        return NodeUtils.listData(first);
     }
 
     public List<T> insert(T data, int insertIndex) {
@@ -49,14 +31,14 @@ public class List<T> implements IDataStructure<T> {
          }else if(insertIndex == -1){
              insertNodeAtEnd(newNode);
          }else{
-             throwIfIndexIsInBounds(insertIndex);
+             throwIfIndexIsOutOfBounds(insertIndex);
              insertNodeAtPosition(insertIndex, newNode);
          }
 
         return this;
     }
 
-    private void throwIfIndexIsInBounds(int index) {
+    private void throwIfIndexIsOutOfBounds(int index) {
         boolean isValid = index == -1
                 || index == 0
                 || (index >= -1 &&  index <= size());
@@ -73,18 +55,7 @@ public class List<T> implements IDataStructure<T> {
     }
 
     private Node<T> getNodeAtPostion(int index) {
-
-        Node<T> current = first;
-
-        for(int i = 0; i < index && current != null; ++i){
-            current = current.getNext();
-        }
-
-        if(current == null){
-            throw new IndexOutOfBoundsException();
-        }
-
-        return current;
+        return NodeUtils.getNodeByIndex(first, index);
     }
 
     private void insertNodeAtEnd(Node<T> newNode) {
@@ -97,13 +68,7 @@ public class List<T> implements IDataStructure<T> {
     }
 
     private Node<T> getLastNode() {
-        Node<T> last = first;
-
-        while(last.getNext() != null){
-            last = last.getNext();
-        }
-
-        return last;
+        return NodeUtils.getLast(first);
     }
 
     private void insertNodeAtBegining(Node<T> newNode) {
@@ -139,21 +104,13 @@ public class List<T> implements IDataStructure<T> {
         if(first.getNext() == null){
             first = null;
         }else{
-            Node<T> prelast = getPrelast();
+            Node<T> prelast = getSecondToLast();
             prelast.setNext(null);
         }
     }
 
-    private Node<T> getPrelast(){
-
-        Node<T> prelast = first;
-
-        while(prelast.getNext().getNext() != null){
-
-            prelast = prelast.getNext();
-        }
-
-        return prelast;
+    private Node<T> getSecondToLast(){
+        return NodeUtils.getSecondToLast(first);
     }
 
     private void removeNodeAtBeginning() {
