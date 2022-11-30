@@ -103,7 +103,11 @@ public class BinaryTree<T extends Comparable<T>> implements IDataStructure<T> {
 
         int compareResult = newNode.getData().compareTo(visitedNode.getData());
 
-        if (compareResult == 0) return;
+        // Update data of the visited node
+        if(compareResult == 0){
+            visitedNode.setData( newNode.getData() );
+            return;
+        }
 
         if (compareResult < 0) {
             if (visitedNode.getLeft() == null) {
